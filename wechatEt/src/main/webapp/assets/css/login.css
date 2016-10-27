@@ -1,0 +1,77 @@
+/** 登陆页css
+ Add By Neil 2016-10-13 */
+ 
+.login-box-body {
+    color: #0073b7 !important;
+    width: 320px;
+    height: 299px; 
+    float: right; 
+    margin-right: 60px;"
+}
+
+.logo-image {
+	margin-top: 5px;
+	margin-left: 15px;
+	width: 80px;
+	height: 80px;
+}
+
+.box-title {
+	horizonal-align: middle;
+}
+
+.fa-size {
+	font-size: 50px;
+}
+
+.row-center {
+	margin:0 auto;
+	text-align:center;
+}
+
+.bg {
+    background-image:url(../imgs/login-show.jpg);
+    -moz-background-size: 100% 100%; /*  Firefox 3.6 */
+    -o-background-size: 100% 100%;/* Opera 9.5 */
+    -webkit-background-size: 100% 100%;/* Safari 3.0 */
+    background-size: 100% 100%;/*  Firefox 4.0 and other CSS3-compliant browsers */
+    -moz-border-image: url(../imgs/login-show.jpg) 0; /* Firefox 3.5 */
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='scale.jpg', sizingMethod='scale');/* for < ie9 */
+}
+
+.blur {	
+    filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+    
+    -webkit-filter: blur(2px); /* Chrome, Opera */
+       -moz-filter: blur(2px);
+        -ms-filter: blur(2px);    
+            filter: blur(2px);
+    
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false); /* IE6~IE9 */
+}
+
+.container > .tjg-bt {
+	font-family: SimSun;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+}
+
+.container > .tjg-bt {
+	margin-top: 70px;
+	font-size: 50px;
+}
+
+.bottom-icon {
+	margin-top: 45px;
+}
+
+/* 去掉默认左边 */
+.content-wrapper{
+	margin-left: 0px;
+}
+
+.main-footer{
+	margin-left: 0px;
+	text-align: center;
+}
