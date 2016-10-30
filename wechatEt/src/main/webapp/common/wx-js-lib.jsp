@@ -6,7 +6,7 @@
 <!-- AdminLTE App -->
 <script src="${pageContext.request.contextPath}/assets/js/app.min.js"></script>
 
-<%-- <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/Jquery/jquery.form.js"></script> --%>
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/Jquery/jquery.form.js"></script>
 
 <!-- Sparkline -->
 <script src="${pageContext.request.contextPath}/assets/js/jquery.sparkline.min.js"></script>

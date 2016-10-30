@@ -42,7 +42,7 @@ public class HomeController extends BaseController {
 		User user = principal.getUser();
 		
 		map.put("userName", user.getName());
-		map.put("topName", user.getOrg().getName());
+		//map.put("topName", user.getOrg().getName());
 		
 		return "home";
 	}
@@ -55,34 +55,50 @@ public class HomeController extends BaseController {
 
 	
 	@ResponseBody
-   	@RequestMapping("getHomeMenu")
-    public List<TreeGridResult> getHomeMenu()
-    {
+	@RequestMapping(value="getMenu")
+	public List<TreeGridResult> getMenu(String pid) {
 		Subject subject = SecurityUtils.getSubject();
-		
 		ShiroPrincipal principal = (ShiroPrincipal) subject.getPrincipal();
+		List<Resource> authResources = principal.getResources();
 		
-		List<Resource> resources = principal.getResources();
+		List<Resource> resources = new ArrayList<Resource>();
 		
-		List<TreeGridResult> menu = new ArrayList<TreeGridResult>();
-		
-		for(Resource resource : resources){
-			
-			if (resource.getLevel().equals("1")){
-				TreeGridResult node = new TreeGridResult();
-				node.setId(resource.getId());
-				node.setText(resource.getName());
-				node.setIconCls(resource.getIcon());
-				node.setAttributes(new TreeNodeAttributes(resource.getUrl()));
-				node.setState("open");
-				
-				menu.add(node);
-			}
-			
+		if(!pid.isEmpty()){
+			resources = resourceDao.getSubResources(pid);
+		}
+		else{
+			resources = resourceDao.getSubResources("0");
 		}
 		
-        return menu;
-    }
+		List<TreeGridResult> menu = new ArrayList<TreeGridResult>();
+		for (Resource resource : resources) {
+			
+			for(Resource authResource : authResources){
+				
+				if (authResource.equals(resource)) {
+					TreeGridResult node = new TreeGridResult();
+					node.setId(resource.getId());
+					node.setText(resource.getName());
+					node.setIconCls(resource.getIcon());
+					node.setAttributes(new TreeNodeAttributes(resource.getUrl()));
+					node.setState("open");
+					
+					
+					List<TreeGridResult> childList = getMenu(resource.getId());
+					TreeGridResult[] childTree = new TreeGridResult[childList.size()];
+					for(int i=0;i<childList.size();i++){
+						childTree[i] = childList.get(i);
+					}
+					node.setChildren(childTree);
+					menu.add(node);				
+					break;
+				}
+
+			}
+		}
+		
+		return menu;
+	}
 	
 	//努纳修改
 	@ResponseBody

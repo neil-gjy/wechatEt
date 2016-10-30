@@ -43,7 +43,7 @@
 
 				<div class="navbar-container">
 					<div class="navbar-header pull-left">
-						<a href="#" class="navbar-brand"> <b> 天津港隐患排查治理信息系统 </b>
+						<a href="#" class="navbar-brand"> <b> 天津港微信管理系统 </b>
 						</a>
 						<!-- /.brand -->
 					</div>
@@ -326,6 +326,6 @@
 
 	<%@ include file="/common/js-lib.jsp"%>
 	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/dist/sys/index.js"></script>
+		src="${pageContext.request.contextPath}/assets/js/dist/home.js"></script>
 </body>
 </html>
