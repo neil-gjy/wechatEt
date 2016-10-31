@@ -1,5 +1,4 @@
 $(function() {
-	
 	$.menuIsLoad=false;
 	var loadMsg = "数据加载中..."
 	var menuUrl = baseUrl + "/getMenu";
@@ -89,10 +88,8 @@ $(function() {
 	
 	
 	function makeMenu(nodes){
-		console.log(nodes);
 		var menu = "";
 		$.each(nodes,function(i,d){
-			console.log(d);
 			var size = d.children.length;
 			
 			if(size>0){
@@ -104,13 +101,12 @@ $(function() {
 			
 			var hfUrl ="";
 			if(d.attributes.url){ hfUrl = baseUrl+d.attributes.url; }
-			
+						
 			menu += '<a href="javascript:void(0)" af="' + hfUrl + '">';
 			menu += '<i class="fa fa-dashboard"><\/i><span class="menu-text">' + d.text +'<\/span><i class="fa fa-angle-left pull-right"><\/i>';
 			menu += '<\/a>';
 			
 			if(size>0){
-				console.log(2)
 				menu += '<ul class="treeview-menu">';
 				menu += makeMenu(d.children);
 				menu += '<\/ul>';
@@ -131,11 +127,4 @@ $(function() {
     $("#btnLogout").click(function(){
    	 window.location.href = baseUrl + "/logout";
    });
-   
-	
 });
-
-
-function linkTo(href){
-	window.location.href = href;
-}

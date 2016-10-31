@@ -24,6 +24,9 @@
 
 <script src="${pageContext.request.contextPath}/assets/js/Jquery/jquery.json-2.4.min.js" type="text/javascript"></script>
 
+<script
+	src="${pageContext.request.contextPath}/assets/js/dist/constant.js"></script>
+
 
 
 

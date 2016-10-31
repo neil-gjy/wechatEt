@@ -324,7 +324,7 @@
 		var pid = "${pid}";
 	</script>
 
-	<%@ include file="/common/js-lib.jsp"%>
+	 <%@ include file="/common/wx-js-lib.jsp"%>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/dist/home.js"></script>
 </body>

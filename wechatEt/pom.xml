@@ -106,6 +106,19 @@
 			<version>1.2.17</version>
 		</dependency>
 
+		<!-- dom4j -->
+		<dependency>   
+	      <groupId>dom4j</groupId>    
+	      <artifactId>dom4j</artifactId>    
+	      <version>1.6.1</version>   
+	    </dependency>  
+	    
+	    <!-- xstream -->
+		<dependency>   
+	      <groupId>com.thoughtworks.xstream</groupId>    
+	      <artifactId>xstream</artifactId>    
+	      <version>1.4.8</version>   
+	    </dependency> 
 
 		<!-- mysql连接 -->
 		<dependency> 
@@ -117,7 +130,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>0.2.9</version>
+			<version>1.0.20</version>
 		</dependency>
 
 		<!-- json -->
@@ -143,6 +156,25 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.4</version>
+		</dependency>
+		
+		<!-- quartz -->
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.1.1</version>
 		</dependency>
 
 		<!-- aop -->

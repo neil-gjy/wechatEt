@@ -1,5 +1,6 @@
 package com.tjport.wechatEt.sys.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -11,11 +12,14 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.tjport.common.model.DatagridResult;
+import com.tjport.common.model.ComboboxResult;
+import com.tjport.common.model.DatatablesParameters;
+import com.tjport.common.model.DatatablesResult;
 import com.tjport.common.model.Result;
 import com.tjport.common.query.Page;
 import com.tjport.common.query.QueryFilter;
@@ -25,6 +29,7 @@ import com.tjport.wechatEt.sys.dao.IUserDao;
 import com.tjport.wechatEt.sys.model.User;
 import com.tjport.wechatEt.sys.service.IUserService;
 import com.tjport.wechatEt.sys.vo.UserVo;
+
 
 
 
@@ -42,11 +47,12 @@ public class UserController {
 	
 	
     @RequestMapping("userList")  
-    public String index() {  
+    public String userList() {  
          //return "success"; //跳转到success页面   
          return BASE + "/" + PATH + "/userList";
     } 
     
+
     @RequestMapping(value="userDialog/{type}")  
     public String userDialog(@PathVariable String type, Map<String,Object> map) {  
     	 map.put("type", type);  
@@ -62,73 +68,50 @@ public class UserController {
     } 
     
     @ResponseBody
-   	@RequestMapping("loadUserList")
-    public DatagridResult<UserVo> loadUserList(int page, int rows, String sort, String order, String customSearch) throws Exception
-    {
-    	//获取用户信息
-    	ShiroPrincipal principal = (ShiroPrincipal) SecurityUtils.getSubject().getPrincipal(); 	
-    	User currentUser = principal.getUser();
+	@RequestMapping("loadUserList")
+	public DatatablesResult<UserVo> loadUserList(@RequestBody DatatablesParameters params)
+			throws UnsupportedEncodingException {
+		int page = (params.getStart() / params.getLength()) + 1;
+    	int rows = params.getLength();
     	
-    	// 分页参数
-    	Page<User> userPage = new Page<User>(page, rows);
-    	userPage.setOrderBy(sort);      // 排序字段
-    	userPage.setOrder(order);		// 升序降序
-    	userPage.setAutoCount(true);    // 计算总数
-      
+    	Page<User> dataPage = new Page<User>(page, rows);
+    	dataPage.setOrderBy(params.getOrderBy());
+    	dataPage.setOrder(params.getOrderDir());
+    	dataPage.setAutoCount(true);
     	
-        if (StringUtils.isNoneBlank(customSearch))
+    	String search = params.getSearch();
+    	
+        
+    	
+        if (StringUtils.isNoneBlank(search))
         {
-        	QueryFilter filter = JSON.parseObject(customSearch, QueryFilter.class);
-
-        	if (currentUser.getIsAdmin()) {
-        		userPage = userDao.findPage(userPage, filter);
-        	} else if(currentUser.getOrg() != null){
-        		
-	        	Rule[] rules = filter.getRules();
-	        	Rule rule = new Rule("org.id","eq", currentUser.getOrg().getId());
-	        	rules = Arrays.copyOf(rules, rules.length+1);
-	        	rules[rules.length-1] = rule;
-	        	filter.setRules(rules);
-	        	
-	        	userPage = userDao.findPage(userPage, filter);
-        	}
         	
-        	
+        	dataPage = this.userDao.findPage(dataPage, search);
         }
         else
         {
-        	
-        	
-        	if (currentUser.getIsAdmin()) {
-        		userPage = userDao.getAll(userPage);
-        	} else if(currentUser.getOrg() != null){
-        		
-        		QueryFilter filter = new QueryFilter();
-	        	
-        		filter.setGroupOp("and");
-	        	
-	        	Rule rule = new Rule("org.id","eq", currentUser.getOrg().getId());
-	        	Rule[] rules = new Rule[1];
-	        	rules[0] = rule;
-	        	filter.setRules(rules);
-	        	
-	        	userPage = userDao.findPage(userPage, filter);
-        	}
+        	dataPage = this.userDao.getAll(dataPage);
         }
- 
-        // 查询结果转换为页面返回 结果
-        List<UserVo> list = new ArrayList<UserVo>();
-        for(User user : userPage.getResult()){
-        	list.add(new UserVo(user));
-        }
-        
-        DatagridResult<UserVo> datagrid = new DatagridResult<UserVo>();
-        datagrid.setRows(list);
-        datagrid.setTotal(userPage.getTotalCount());
 
-        return datagrid;
-    }
-    
+        ArrayList<UserVo> list = new ArrayList<UserVo>();
+        for(User entity : dataPage.getResult()){
+        	try {
+				list.add(new UserVo(entity));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}        	
+        }
+             	
+    	DatatablesResult<UserVo> result = new DatatablesResult<UserVo>();
+    	result.setDraw(params.getDraw());
+    	result.setData(list);
+    	result.setRecordsFiltered(dataPage.getTotalCount());
+    	result.setRecordsTotal(dataPage.getTotalCount());
+    	
+    	return result;
+	}
+
     
     @ResponseBody
 	@RequestMapping("userAdd")
@@ -154,16 +137,16 @@ public class UserController {
 	@RequestMapping("userEdit")
 	public Result edit(UserVo userVo) {
 
-    	userVo.setUpdateTime(new Date(System.currentTimeMillis()));
-    	
-    	Result mReturn = null;
-		try {
+    	// 添加修改人和修改时间
+		ShiroPrincipal principal = (ShiroPrincipal) SecurityUtils.getSubject().getPrincipal();
+		
 
+		Result mReturn = null;
+		try {
 			userService.update(userVo);
-			
 			mReturn = Result.successResult().setMsg("编辑成功");
 		} catch (Exception e) {
-			//logger.error("添加失败", e);
+
 			mReturn = Result.errorResult().setMsg(e.getMessage());
 		}
 		return mReturn;
@@ -184,6 +167,20 @@ public class UserController {
 		return mReturn;
 	}
     
-    
+    @ResponseBody
+    @RequestMapping("loadUserCombo")
+    public List<ComboboxResult> loadUserCombo() {
+      List<User> list = userDao.findAll();
+      List<ComboboxResult> result = new ArrayList<ComboboxResult>();
+
+      for (User l : list) {
+        ComboboxResult comboboxResult = new ComboboxResult();
+        comboboxResult.setId(l.getId());
+        comboboxResult.setText(l.getName());
+        result.add(comboboxResult);
+      }
+
+      return result;
+    }
   
 }  
