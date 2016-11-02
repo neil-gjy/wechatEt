@@ -74,6 +74,9 @@ $(function() {
 		del(data.id);
 
 	});
+	
+	
+	getUserTags();
 
 	$('#btnNew').click(function() {
 		$("#addModalLabel").html("添加");
@@ -82,6 +85,10 @@ $(function() {
 		oper = "Add";
 	});
 
+	$('#btnSave').click(function() {
+		save();
+	});
+	
 	$('#btnSave').click(function() {
 		save();
 	});
@@ -158,5 +165,26 @@ function showDetail(data) {
 		$('#addModal').modal();
 	}
 
+}
+
+
+function getUserTags(){
+	$.ajax({
+		type : "POST",
+		url : baseUrl + "/sys/user/getTagsList",
+		traditional : false,
+		dataType : 'json',
+		success : function(result) {
+			if (result) {
+				console.log(result.obj);
+				if (result.msg) {
+					bootbox.alert(result.msg);
+				}
+			}
+		},
+		error : function() {
+			bootbox.alert(result.msg);
+		}
+	});
 }
 

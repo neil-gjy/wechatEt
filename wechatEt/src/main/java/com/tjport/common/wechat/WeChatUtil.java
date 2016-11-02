@@ -1,5 +1,6 @@
 package com.tjport.common.wechat;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tjport.common.wechat.menu.Button;
 import com.tjport.common.wechat.menu.ClickButton;
@@ -12,6 +13,7 @@ import com.tjport.common.wechat.menu.Matchrule;
 import com.tjport.common.wechat.menu.PersonalMenu;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -470,18 +472,33 @@ public class WeChatUtil {
 	}
 	
 	
-	
-	/*public static List<TagsPo> updateTags(String token){
+	/**
+	 * 获取标签列表
+	 * @param token
+	 * @return
+	 */
+	public static List<TagsPo> getTags(String token){
 		String url = GET_TAGS.replace("ACCESS_TOKEN", token);
 		
 		JSONObject jsonObject = getStr(url);
 		
+		List<TagsPo> list = new ArrayList<TagsPo>();
 		if(jsonObject != null){
-			jsonObject.getString("tags").length();
+			JSONArray arr = jsonObject.getJSONArray("tags");
+			int len = arr.size();
+			for(int i=0; i< len; i++){
+				TagsPo tag = new TagsPo();
+				JSONObject obj = arr.getJSONObject(i);
+				tag.setId(obj.getIntValue("id"));
+				tag.setName(obj.getString("name"));
+				tag.setCount(obj.getIntValue("count"));
+				
+				list.add(tag);
+			}
 		}
 		
-		return result;
-	}*/
+		return list;
+	}
 	
 	
 }

@@ -24,11 +24,14 @@ import com.tjport.common.model.Result;
 import com.tjport.common.query.Page;
 import com.tjport.common.query.QueryFilter;
 import com.tjport.common.query.Rule;
+import com.tjport.common.wechat.WeChatUtil;
+import com.tjport.common.wechat.po.TagsPo;
 import com.tjport.wechatEt.security.ShiroPrincipal;
 import com.tjport.wechatEt.sys.dao.IUserDao;
 import com.tjport.wechatEt.sys.model.User;
 import com.tjport.wechatEt.sys.service.IUserService;
 import com.tjport.wechatEt.sys.vo.UserVo;
+import com.tjport.wechatEt.wechat.controller.TokenController;
 
 
 
@@ -181,6 +184,18 @@ public class UserController {
       }
 
       return result;
+    }
+    
+    
+    // 用户标签
+    @ResponseBody
+	@RequestMapping("getTagsList")
+	public Result getTagsList() {
+    	List<TagsPo> tagsList = WeChatUtil.getTags(TokenController.token.getToken());
+    	
+    	Result mReturn = Result.successResult().setObj(tagsList);
+    	
+    	return mReturn;
     }
   
 }  
