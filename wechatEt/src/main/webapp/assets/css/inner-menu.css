@@ -1,0 +1,16 @@
+
+
+.group_list {
+    padding-bottom: 100px;
+}
+
+.inner_menu_item {
+    line-height: 32px;
+}
+
+.inner_menu_link {
+    color: #222;
+    display: block;
+    padding-left: 1em;
+    text-decoration: none;
+}

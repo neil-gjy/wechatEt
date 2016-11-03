@@ -3,11 +3,11 @@ var oper;
 $(function() {
 
 	// 初始化用户列表
-	table = $("#list").dataTable(
+	/*table = $("#list").dataTable(
 			$.extend(true, {}, CONSTANT.DATA_TABLES.DEFAULT_OPTION, {
 
 				"ajax" : {
-					"url" : baseUrl + "/sys/user/loadUserList",
+					"url" : baseUrl + "/wechat/user/loadUserList",
 					"type" : "POST",
 					"data" : function(data) {
 						data.search = $("#searchInput").val();
@@ -73,86 +73,18 @@ $(function() {
 		var data = table.row($(this).closest('tr')).data();
 		del(data.id);
 
-	});
+	});*/
 	
-
-	$('#btnNew').click(function() {
-		$("#addModalLabel").html("添加");
-
-		$('#addModal').modal();
-		oper = "Add";
-	});
-
-	$('#btnSave').click(function() {
-		save();
-	});
+	// 获取用户信息
+	getUserList();
 	
-	$('#btnSave').click(function() {
-		save();
-	});
+	// 填充标签菜单
+	getUserTags();
+
+
 });
 
-function save() {
 
-	var postUrl = "";
-	if (oper == "Add") {
-		postUrl = baseUrl + "/sys/user/userAdd";
-	} if (oper == "Edit") {
-		postUrl = baseUrl + "/sys/user/userEdit";
-	}
-	$("#userForm").ajaxSubmit({
-		type : "post",
-		url : postUrl,
-		dataType : "json",
-		success : function(result) {
-			if (result) {
-				if (result.code) {
-					bootbox.alert(result.msg);
-					$('#addModal').modal("hide");
-					table.draw();
-				} else {
-					bootbox.alert(result.msg);
-				}
-			} else {
-
-				bootbox.alert("异常");
-			}
-		},
-		error : function() {
-			bootbox.alert("网络连接错误，请重试！");
-		}
-	});
-	return false;
-}
-
-function del(id) {
-
-	bootbox.confirm("确定要删除吗？", function(result) {
-		if (result) {
-			$.ajax({
-				type : "POST",
-				url : baseUrl + "/sys/user/userDel",
-				data : {
-					id : id
-				},
-				traditional : false,
-				dataType : 'json',
-				success : function(result) {
-					if (result) {
-						if (result.msg) {
-							bootbox.alert(result.msg);
-							table.draw(false);
-						}
-					}
-				},
-				error : function() {
-					bootbox.alert(result.msg);
-				}
-			});
-		}
-	});
-
-}
 
 function showDetail(data) {
 
@@ -165,11 +97,33 @@ function showDetail(data) {
 
 }
 
+// 获取用户列表
+function getUserList(){
+	$.ajax({
+		type : "POST",
+		url : baseUrl + "/wechat/user/getUsersList",
+		traditional : false,
+		dataType : 'json',
+		success : function(result) {
+			if (result) {
+				console.log(result.obj);
+				//fillTagList(result.obj);
+				/*if (result.msg) {
+					bootbox.alert(result.msg);
+				}*/
+			}
+		},
+		error : function() {
+			bootbox.alert(result.msg);
+		}
+	});
+}
+
 
 function getUserTags(){
 	$.ajax({
 		type : "POST",
-		url : baseUrl + "/sys/user/getTagsList",
+		url : baseUrl + "/wechat/user/getTagsList",
 		traditional : false,
 		dataType : 'json',
 		success : function(result) {
@@ -185,5 +139,19 @@ function getUserTags(){
 			bootbox.alert(result.msg);
 		}
 	});
+}
+
+function fillTagList(tags){
+	var html = "";
+	for(var i=0; i<tags.length; i++){
+		html += '<dd id="group' + tags[i].id + '" class="inner_menu_item">' + 
+		'<a class="inner_menu_link js_group_link" href="javascript:;" data-id="' + tags[i].id + '" title="' + tags[i].name + '">' +
+			'<strong>' + tags[i].name + '</strong>' +
+			'<em class="num">(' + tags[i].count + ')</em>' +
+		'</a>'+
+		'</dd>';
+	}
+	
+	$("#menuContent").html(html);
 }
 

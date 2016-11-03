@@ -4,7 +4,7 @@
 
 <div class="row">
 
-	<div class="col-xs-12">
+	<div class="col-xs-9">
 		<div class="box box-primary">
 
 			<!-- /.box-header -->
@@ -55,8 +55,37 @@
 		<!-- /.box -->
 	</div>
 	
-	
-</div>
+	<div class="col-xs-3">
+		<div class="box box-primary">
+
+			<!-- /.box-header -->
+			<div class="box-body">
+
+				<div class="row ">
+					
+					<div class="group_list">
+						<div id="groupsList" class="inner_menu_box">
+						 <dl id="menuContent" class="inner_menu">
+								<dd id="group2" class="inner_menu_item">
+									<a class="inner_menu_link js_group_link" href="javascript:;" data-id="2" title="加入该分组中的用户仅作为更重要的用户归类标识">
+										<strong>星标用户</strong>
+										<em class="num">(0)</em>
+									</a>
+								</dd>
+								<dd id="group100" class="inner_menu_item">
+									<a class="inner_menu_link js_group_link" href="javascript:;" data-id="100" title="1">
+										<strong>1</strong>
+										<em class="num">(0)</em>
+									</a>
+								</dd> 	
+						</dl>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <div id="addModal" class="modal fade" tabindex="0"
 	data-backdrop="static" role="dialog" aria-labelledby=""
@@ -135,4 +164,4 @@
 
 
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/dist/sys/userList.js"></script>
+	src="${pageContext.request.contextPath}/assets/js/dist/wechat/userList.js"></script>

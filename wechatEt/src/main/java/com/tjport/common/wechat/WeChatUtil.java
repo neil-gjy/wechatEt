@@ -9,6 +9,7 @@ import com.tjport.common.wechat.menu.ViewButton;
 import com.tjport.common.wechat.po.AccessTokenPo;
 import com.tjport.common.wechat.po.TagsPo;
 import com.tjport.common.wechat.po.UserInfoPo;
+import com.tjport.common.wechat.po.UserListPo;
 import com.tjport.common.wechat.menu.Matchrule;
 import com.tjport.common.wechat.menu.PersonalMenu;
 
@@ -47,6 +48,10 @@ public class WeChatUtil {
 	private static final String CREATE_PERSONAL_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=ACCESS_TOKEN";
 	
 	private static final String USER_INFO_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+	
+	private static final String USER_INFO_LIST = "https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN";
+	
+	private static final String GET_USER_LIST = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=NEXT_OPENID";
 	
 	private static final String SET_USER_REMARK_URL = "https://api.weixin.qq.com/cgi-bin/user/info/updateremark?access_token=ACCESS_TOKEN";
 	
@@ -304,6 +309,73 @@ public class WeChatUtil {
 		return userInfoPo;
 		
 	}
+	
+	/**
+	 * 获取用户openid列表
+	 * @param token
+	 * @param openid
+	 * @return
+	 */
+	public static UserListPo getUserList(String token, String openid){
+		UserListPo userListPo = new UserListPo();
+		
+		String url = "";
+		
+		if(openid.isEmpty()){
+			url = GET_USER_LIST.replace("ACCESS_TOKEN", token).replace("&next_openid=NEXT_OPENID", openid);
+		}
+		else{
+			url = GET_USER_LIST.replace("ACCESS_TOKEN", token).replace("OPENID", openid);
+		}
+		
+		JSONObject jsonObject = getStr(url);
+		
+		if(jsonObject != null){
+			userListPo.setCount(jsonObject.getIntValue("total"));
+			userListPo.setCount(jsonObject.getIntValue("count"));
+			
+			userListPo.setNext_openid(jsonObject.getString("next_openid"));
+			JSONObject data = jsonObject.getJSONObject("data");
+			
+			JSONArray arr = data.getJSONArray("openid");
+			
+			//List<String>
+			for(int i=0; i<arr.size(); i++){
+				userListPo.getOpenid().add(arr.getString(i));
+			}
+		}
+		
+		return userListPo;
+		
+	}
+	
+	public static JSONObject getUserInfoList(String token, List<String> openids){
+		int result = 0;
+		String url = USER_INFO_LIST.replace("ACCESS_TOKEN", token);
+		
+		JSONArray arr = new JSONArray();
+		for(int i=0; i< openids.size(); i++){
+			JSONObject obj = new JSONObject();
+			
+			obj.put("openid", openids.get(i));
+			obj.put("lang", "zh-CN");
+			
+			arr.add(obj);
+		}
+		
+		JSONObject jsonPost = new JSONObject();
+		jsonPost.put("user_list", arr);
+		
+		String postStr = jsonPost.toJSONString();
+		
+		JSONObject jsonObject = postStr(url, postStr);
+		
+		if(jsonObject != null){
+			result = jsonObject.getIntValue("errorcode");
+		}
+		
+		return jsonObject;
+    }
 	
 	/**
 	 * 设置用户备注

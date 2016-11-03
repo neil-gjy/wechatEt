@@ -18,4 +18,7 @@
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/css/datatables.min.css">
+	
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/inner-menu.css">
 
