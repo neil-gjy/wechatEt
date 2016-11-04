@@ -41,13 +41,38 @@
 					<thead>
 						<tr>
 							<th>ID</th>
-							<th>用户名</th>
-							<th>用户姓名</th>
-							<th>组织机构</th>
+							<th>昵称</th>
+							<th>标签</th>
+							<th>备注</th>
 							<th>操作</th>
 						</tr>
 					</thead>
-					<tbody></tbody>
+					<tbody>
+						<!-- <tr>
+							<td class="table_cell user">
+								<div class="user_info">
+									<a class="remark_name" target="_blank" href="/cgi-bin/singlesendpage?t=message/send&action=index&tofakeid=o-QHcwvci_s7swHzesBvHEHbl6bQ&token=418244102&lang=zh_CN" data-fakeid="o-QHcwvci_s7swHzesBvHEHbl6bQ">郭晶云</a>
+									<span class="nick_name" data-fakeid="o-QHcwvci_s7swHzesBvHEHbl6bQ"></span>
+									<a class="avatar" target="_blank" href="/cgi-bin/singlesendpage?t=message/send&action=index&tofakeid=o-QHcwvci_s7swHzesBvHEHbl6bQ&token=418244102&lang=zh_CN">
+									<img class="js_msgSenderAvatar" src="/misc/getheadimg?fakeid=o-QHcwvci_s7swHzesBvHEHbl6bQ&token=418244102&lang=zh_CN" data-id="o-QHcwvci_s7swHzesBvHEHbl6bQ">
+									</a>
+									<label class="frm_checkbox_label" for="checko-QHcwvci_s7swHzesBvHEHbl6bQ">
+									<i class="icon_checkbox"></i>
+									<input id="checko-QHcwvci_s7swHzesBvHEHbl6bQ" class="frm_checkbox js_select" value="o-QHcwvci_s7swHzesBvHEHbl6bQ" type="checkbox">
+									</label>
+									<div class="js_tags user_tag_area">
+										<span class="js_tags_list user_tag_list">无标签 </span>
+											<span class="js_tags_btn dropdown_switch_area dropdown_closed" data-id="o-QHcwvci_s7swHzesBvHEHbl6bQ">
+											<span class="icon_dropdown_switch">
+											<i class="arrow arrow_up"></i>
+											<i class="arrow arrow_down"></i>
+											</span>
+										</span>
+									</div>
+								</div>
+							</td>
+						</tr> -->
+					</tbody>
 				</table>
 			</div>
 			<!-- /.box-body -->

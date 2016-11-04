@@ -3,7 +3,7 @@ var oper;
 $(function() {
 
 	// 初始化用户列表
-	/*table = $("#list").dataTable(
+	table = $("#list").dataTable(
 			$.extend(true, {}, CONSTANT.DATA_TABLES.DEFAULT_OPTION, {
 
 				"ajax" : {
@@ -18,19 +18,18 @@ $(function() {
 					"contentType" : 'application/json;charset=UTF-8'
 				},
 				"columns" : [ {
-					"data" : "id"
+					"data" : "openid"
 				}, {
-					"data" : "username"
+					"data" : "nickname"
 				}, {
-					"data" : "name"
+					"data" : "language"
 				}, {
-					"data" : "orgName"
+					"data" : "remark"
 				},
 				{
 					"data" : null,
 					"title" : "操作",
-					"defaultContent" : "<button id='detailsBtn' class='btn btn-xs bg-blue ' type='button'>详情</button>" +
-					" <button id='editBtn' class='btn btn-xs bg-blue ' type='button'>编辑</button> " + "<button id='delBtn' class='btn btn-xs bg-blue ' type='button'>删除</button>"
+					"defaultContent" : "<button id='detailsBtn' class='btn btn-xs bg-blue ' type='button'>详情</button>"
 				}  ],
 				"columnDefs" : [ {
 					"targets" : [ 0 ],
@@ -73,7 +72,7 @@ $(function() {
 		var data = table.row($(this).closest('tr')).data();
 		del(data.id);
 
-	});*/
+	});
 	
 	// 获取用户信息
 	getUserList();

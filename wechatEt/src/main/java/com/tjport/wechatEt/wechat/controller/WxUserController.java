@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.tjport.common.model.ComboboxResult;
 import com.tjport.common.model.DatatablesParameters;
@@ -34,6 +35,7 @@ import com.tjport.wechatEt.sys.model.User;
 import com.tjport.wechatEt.sys.service.IUserService;
 import com.tjport.wechatEt.sys.vo.UserVo;
 import com.tjport.wechatEt.wechat.controller.TokenController;
+import com.tjport.wechatEt.wechat.vo.WxUserVo;
 
 
 
@@ -58,17 +60,47 @@ public class WxUserController {
 	public Result getUsersList() {
     	UserListPo usersListPo = WeChatUtil.getUserList(TokenController.token.getToken(), "");
     	
-    	//List<String> openids = new ArrayList<String>();
-    	/*for(int i=0; i<usersListPo.getTotal(); i++){
-    		openids.add(e)
-    	}*/
-    	
     	JSONObject obj = WeChatUtil.getUserInfoList(TokenController.token.getToken(), usersListPo.getOpenid());
     	
     	Result mReturn = Result.successResult().setObj(obj);
     	
     	return mReturn;
     }
+    
+    @ResponseBody
+	@RequestMapping("loadUserList")
+	public DatatablesResult<WxUserVo> loadUserList(@RequestBody DatatablesParameters params)
+			throws UnsupportedEncodingException {
+		int page = (params.getStart() / params.getLength()) + 1;
+    	int rows = params.getLength();
+    	
+    	UserListPo usersListPo = WeChatUtil.getUserList(TokenController.token.getToken(), "");
+    	
+    	JSONObject obj = WeChatUtil.getUserInfoList(TokenController.token.getToken(), usersListPo.getOpenid());
+    	
+    	JSONArray arr = obj.getJSONArray("user_info_list");
+    	
+    	ArrayList<WxUserVo> list = new ArrayList<WxUserVo>();
+    	int total = arr.size();
+    	for(int i=0; i<total; i++){
+    		WxUserVo wxUser = new WxUserVo();
+    		
+    		wxUser.setOpenid(arr.getJSONObject(i).getString("openid"));
+    		wxUser.setRemark(arr.getJSONObject(i).getString("remark"));
+    		wxUser.setNickname(arr.getJSONObject(i).getString("nickname"));
+    		wxUser.setLanguage(arr.getJSONObject(i).getString("language"));
+    		
+    		list.add(wxUser);
+    	}
+             	
+    	DatatablesResult<WxUserVo> result = new DatatablesResult<WxUserVo>();
+    	result.setDraw(params.getDraw());
+    	result.setData(list);
+    	result.setRecordsFiltered(total);
+    	result.setRecordsTotal(total);
+    	
+    	return result;
+	}
     
     
     // 用户标签
