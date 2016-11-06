@@ -530,15 +530,19 @@ public class WeChatUtil {
 		jsonText.put("name", tags);
 		
 		JSONObject jsonPost = new JSONObject();
-		jsonPost.put("tags", jsonText);
+		jsonPost.put("tag", jsonText);
 		
 		String postStr = jsonPost.toJSONString();
 		
 		JSONObject jsonObject = postStr(url, postStr);
 		
-		if(jsonObject != null){
+		if(jsonObject.getJSONObject("tag") != null){
+			result = 1;
+		}
+		else{
 			result = jsonObject.getIntValue("errorcode");
 		}
+		
 		
 		return result;
 	}

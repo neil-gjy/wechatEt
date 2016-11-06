@@ -18,8 +18,15 @@ $(function() {
 					"contentType" : 'application/json;charset=UTF-8'
 				},
 				"columns" : [ {
+					"data" : null,
+					"title" : "#",
+					"orderable" : false,
+					"className": 'select-checkbox',
+					"defaultContent" : ""
+				},{
 					"data" : "openid"
-				}, {
+				},
+				{
 					"data" : "nickname"
 				}, {
 					"data" : "language"
@@ -32,10 +39,14 @@ $(function() {
 					"defaultContent" : "<button id='detailsBtn' class='btn btn-xs bg-blue ' type='button'>详情</button>"
 				}  ],
 				"columnDefs" : [ {
-					"targets" : [ 0 ],
+					"targets" : [ 1 ],
 					"visible" : false,
 					"searchable" : false
-				}]
+				}],
+				select: {
+		            style:    'multi',
+		            selector: 'td:first-child'
+		        },
 
 			})).api();
 
@@ -74,14 +85,92 @@ $(function() {
 
 	});
 	
+	
+	// 初始化标签列表
+//	tagsTable = $("#tagsList").dataTable(
+//			$.extend(true, {}, CONSTANT.DATA_TABLES.DEFAULT_OPTION, {
+//
+//				"ajax" : {
+//					"url" : baseUrl + "/wechat/user/loadTagList",
+//					"type" : "POST",
+//					"data" : function(data) {
+//						data.search = $("#searchInput").val();
+//						return JSON.stringify(data);
+//					},
+//					"dataType" : "json",
+//					"processData" : false,
+//					"contentType" : 'application/json;charset=UTF-8'
+//				},
+//				"columns" : [ {
+//					"data" : "id"
+//				}, {
+//					"data" : "name"
+//				}, {
+//					"data" : "count"
+//				},
+//				{
+//					"data" : null,
+//					"title" : "操作",
+//					"defaultContent" : "<button id='editBtn' class='btn btn-xs bg-blue ' type='button'>编辑</button>" +
+//									   "<button id='delBtn' class='btn btn-xs bg-blue ' type='button'>删除</button>"
+//				}  ],
+//				"columnDefs" : [ {
+//					"targets" : [ 0 ],
+//					"visible" : false,
+//					"searchable" : false
+//				}]
+//
+//			})).api();
+	
 	// 获取用户信息
-	getUserList();
+	//getUserList();
 	
 	// 填充标签菜单
-	getUserTags();
+	//getUserTags();
 
+	$("#addTagBtn").click(function() {
+		$("#addTagModal").modal("show");
+	});
+	
+	$("#addTagToUsersBtn").click(function() {
+		 var selectRows = table.rows( { selected: true } );
+		 console.log(selectRows);
+	});
+	
+	$("#saveTagBtn").click(function() {
+		saveTag();
+	});
+	
+	$("#editBtn").click(function() {
+		console.log("edit");
+	});
 
 });
+
+// 保存标签
+function saveTag(){
+	var tagName = $("#tagName").val();
+
+	$.ajax({
+		type : "POST",
+		url : baseUrl + "/wechat/user/saveTag",
+		traditional : false,
+		dataType : 'json',
+		data: { tags: tagName },
+		success : function(result) {
+			if (result.code) {
+				getUserTags();
+				//fillTagList(result.obj);
+				/*if (result.msg) {
+					bootbox.alert(result.msg);
+				}*/
+			}
+		},
+		error : function() {
+			bootbox.alert(result.msg);
+		}
+	});
+}
 
 
 

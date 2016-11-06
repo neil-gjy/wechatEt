@@ -103,6 +103,32 @@ public class WxUserController {
 	}
     
     
+    @ResponseBody
+	@RequestMapping("loadTagList")
+	public DatatablesResult<TagsPo> loadTagList(@RequestBody DatatablesParameters params)
+			throws UnsupportedEncodingException {
+		int page = (params.getStart() / params.getLength()) + 1;
+    	int rows = params.getLength();
+    	
+    	List<TagsPo> tagsList = WeChatUtil.getTags(TokenController.token.getToken());
+    	ArrayList<TagsPo> list = new ArrayList<TagsPo>();
+    	
+    	for(int i=0; i<tagsList.size(); i++){
+    		list.add(tagsList.get(i));
+    	}
+    	
+    	int total = tagsList.size();
+             	
+    	DatatablesResult<TagsPo> result = new DatatablesResult<TagsPo>();
+    	result.setDraw(params.getDraw());
+    	result.setData(list);
+    	result.setRecordsFiltered(total);
+    	result.setRecordsTotal(total);
+    	
+    	return result;
+	}
+    
+    
     // 用户标签
     @ResponseBody
 	@RequestMapping("getTagsList")
@@ -110,6 +136,25 @@ public class WxUserController {
     	List<TagsPo> tagsList = WeChatUtil.getTags(TokenController.token.getToken());
     	
     	Result mReturn = Result.successResult().setObj(tagsList);
+    	
+    	return mReturn;
+    }
+    
+    //保存标签
+    @ResponseBody
+	@RequestMapping("saveTag")
+	public Result saveTag(String tags) {
+    	Result mReturn = null;
+    	
+    	int res = WeChatUtil.createTags(TokenController.token.getToken(), tags);
+    	
+    	if(res == 1){
+    		mReturn = Result.successResult().setMsg("保存成功！");
+    	}
+    	else{
+    		mReturn = Result.errorResult().setMsg("保存失败！");
+    	}
+    	
     	
     	return mReturn;
     }

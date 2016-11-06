@@ -3,18 +3,20 @@
 <!DOCTYPE html>
 
 <div class="row">
-
+	
 	<div class="col-xs-9">
 		<div class="box box-primary">
-
+			
 			<!-- /.box-header -->
 			<div class="box-body">
-
+				<div class="rows">
+					
+				</div>
 				<div class="row ">
 
 					<div class="col-xs-9">
-						<button class="btn btn-sm btn-primary " id="btnNew">
-							<span class="glyphicon glyphicon-plus"></span> 添加
+						<button class="btn btn-sm btn-primary " id="addTagToUsersBtn">
+							<span class="glyphicon glyphicon-plus"></span> 打标签
 						</button>
 
 						<button class="btn btn-sm btn-primary" id="btnRefresh">
@@ -40,7 +42,9 @@
 					class="table table-bordered table-striped table-hover">
 					<thead>
 						<tr>
+							<th></th>
 							<th>ID</th>
+							
 							<th>昵称</th>
 							<th>标签</th>
 							<th>备注</th>
@@ -82,37 +86,58 @@
 	
 	<div class="col-xs-3">
 		<div class="box box-primary">
+			<div class="box-header with-border">
 
+              
+            </div>
 			<!-- /.box-header -->
 			<div class="box-body">
-
-				<div class="row ">
-					
-					<div class="group_list">
-						<div id="groupsList" class="inner_menu_box">
-						 <dl id="menuContent" class="inner_menu">
-								<dd id="group2" class="inner_menu_item">
-									<a class="inner_menu_link js_group_link" href="javascript:;" data-id="2" title="加入该分组中的用户仅作为更重要的用户归类标识">
-										<strong>星标用户</strong>
-										<em class="num">(0)</em>
-									</a>
-								</dd>
-								<dd id="group100" class="inner_menu_item">
-									<a class="inner_menu_link js_group_link" href="javascript:;" data-id="100" title="1">
-										<strong>1</strong>
-										<em class="num">(0)</em>
-									</a>
-								</dd> 	
-						</dl>
-						</div>
-					</div>
-					</div>
-				</div>
+				  <div class="rows">
+	                <button class="btn btn-sm btn-primary " id="addTagNew">
+						<span class="glyphicon glyphicon-plus"></span> 添加
+					</button>
+	              </div>
+				 <table id="tagsList"
+					class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>标签</th>
+							<th>数量</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
 			</div>
 		</div>
 	</div>
+	
+	<!-- 标签添加对话框 -->
+<div id="addTagModal" class="modal" tabindex="－1"
+	data-backdrop="true" role="dialog" aria-labelledby="11"
+	aria-hidden="true">
+	<div class="modal-dialog" style="width: 300px;">
+		<div class="modal-content">
+			<div class="modal-body">
+				<label class="col-sm-2 control-label" >标签名称</label>
+				<div class="col-sm-4">
+					<input class="form-control" id="tagName" type="text"/>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				<button class="btn btn-primary" id="saveTagBtn">保存</button>
+			</div>
+		</div>
+	</div>
+</div>	
 
-<div id="addModal" class="modal fade" tabindex="0"
+<div id="addModal" class="modal fade" tabindex="－1"
 	data-backdrop="static" role="dialog" aria-labelledby=""
 	aria-hidden="true">
 	<div class="modal-dialog" style="width: 70%;">
