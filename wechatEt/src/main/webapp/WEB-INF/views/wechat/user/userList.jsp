@@ -137,6 +137,27 @@
 	</div>
 </div>	
 
+	<!-- 打标签对话框 -->
+<div id="toUserTagModal" class="modal" tabindex="－1"
+	data-backdrop="true" role="dialog" aria-labelledby="11"
+	aria-hidden="true">
+	<div class="modal-dialog" style="width: 300px;">
+		<div class="modal-content">
+			<div id="tagContent" class="modal-body">
+				
+				<label class="select-checkbox">
+			      <input type="checkbox">  标签
+			    </label>
+				
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				<button class="btn btn-primary" id="saveTagBtn">确定</button>
+			</div>
+		</div>
+	</div>
+</div>	
+
 <div id="addModal" class="modal fade" tabindex="－1"
 	data-backdrop="static" role="dialog" aria-labelledby=""
 	aria-hidden="true">
