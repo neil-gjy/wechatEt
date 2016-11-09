@@ -145,14 +145,10 @@
 		<div class="modal-content">
 			<div id="tagContent" class="modal-body">
 				
-				<label class="select-checkbox">
-			      <input type="checkbox">  标签
-			    </label>
-				
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-				<button class="btn btn-primary" id="saveTagBtn">确定</button>
+				<button class="btn btn-primary" id="labelTagBtn">确定</button>
 			</div>
 		</div>
 	</div>

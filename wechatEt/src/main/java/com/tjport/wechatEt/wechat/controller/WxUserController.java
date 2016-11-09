@@ -158,5 +158,24 @@ public class WxUserController {
     	
     	return mReturn;
     }
+    
+    //为用户打标签
+    @ResponseBody
+	@RequestMapping("labelTag")
+	public Result labelTag(List<String> openids, String tag) {
+    	Result mReturn = null;
+    	
+    	int res = WeChatUtil.labelTags(TokenController.token.getToken(), openids, tag);
+    	
+    	if(res == 0){
+    		mReturn = Result.successResult().setMsg("标签赋值成功！");
+    	}
+    	else{
+    		mReturn = Result.errorResult().setMsg("标签赋值失败！");
+    	}
+    	
+    	
+    	return mReturn;
+    }
   
 }  
