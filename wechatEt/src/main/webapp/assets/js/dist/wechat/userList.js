@@ -1,5 +1,6 @@
 var table;
 var oper;
+var selectOpenids = "";//已选择的openid
 $(function() {
 
 	// 初始化用户列表
@@ -29,7 +30,7 @@ $(function() {
 				{
 					"data" : "nickname"
 				}, {
-					"data" : "language"
+					"data" : "tagid_list"
 				}, {
 					"data" : "remark"
 				},
@@ -87,40 +88,40 @@ $(function() {
 	
 	
 	// 初始化标签列表
-//	tagsTable = $("#tagsList").dataTable(
-//			$.extend(true, {}, CONSTANT.DATA_TABLES.DEFAULT_OPTION, {
-//
-//				"ajax" : {
-//					"url" : baseUrl + "/wechat/user/loadTagList",
-//					"type" : "POST",
-//					"data" : function(data) {
-//						data.search = $("#searchInput").val();
-//						return JSON.stringify(data);
-//					},
-//					"dataType" : "json",
-//					"processData" : false,
-//					"contentType" : 'application/json;charset=UTF-8'
-//				},
-//				"columns" : [ {
-//					"data" : "id"
-//				}, {
-//					"data" : "name"
-//				}, {
-//					"data" : "count"
-//				},
-//				{
-//					"data" : null,
-//					"title" : "操作",
-//					"defaultContent" : "<button id='editBtn' class='btn btn-xs bg-blue ' type='button'>编辑</button>" +
-//									   "<button id='delBtn' class='btn btn-xs bg-blue ' type='button'>删除</button>"
-//				}  ],
-//				"columnDefs" : [ {
-//					"targets" : [ 0 ],
-//					"visible" : false,
-//					"searchable" : false
-//				}]
-//
-//			})).api();
+	tagsTable = $("#tagsList").dataTable(
+			$.extend(true, {}, CONSTANT.DATA_TABLES.DEFAULT_OPTION, {
+
+				"ajax" : {
+					"url" : baseUrl + "/wechat/user/loadTagList",
+					"type" : "POST",
+					"data" : function(data) {
+						data.search = $("#searchInput").val();
+						return JSON.stringify(data);
+					},
+					"dataType" : "json",
+					"processData" : false,
+					"contentType" : 'application/json;charset=UTF-8'
+				},
+				"columns" : [ {
+					"data" : "id"
+				}, {
+					"data" : "name"
+				}, {
+					"data" : "count"
+				},
+				{
+					"data" : null,
+					"title" : "操作",
+					"defaultContent" : "<button id='editBtn' class='btn btn-xs bg-blue ' type='button'>编辑</button>" +
+									   "<button id='delBtn' class='btn btn-xs bg-blue ' type='button'>删除</button>"
+				}  ],
+				"columnDefs" : [ {
+					"targets" : [ 0 ],
+					"visible" : false,
+					"searchable" : false
+				}]
+
+			})).api();
 	
 	// 获取用户信息
 	//getUserList();
@@ -128,7 +129,7 @@ $(function() {
 	// 填充标签菜单
 	//getUserTags();
 	//showTag1();
-	$("#toUserTagModal").modal("show");
+	//$("#toUserTagModal").modal("show");
 	$("#addTagBtn").click(function() {
 		$("#addTagModal").modal("show");
 	});
@@ -137,12 +138,15 @@ $(function() {
 		 var selectIds = table.rows( { selected: true } );
 		 var rowData = table.rows( selectIds[0] ).data().toArray();
 		 
-		 var openids = new Array();
+		 var str = "";
 		 for(var i=0; i<rowData.length; i++){
-			 openids.push(rowData[i].openid);
+			 str += rowData[i].openid;
+			 str += ",";
 		 }
+		 selectOpenids = str.substring(0,str.length-1);
 		 
-		 console.log(openids);
+		 getUserTags();
+		 $("#toUserTagModal").modal("show");
 	});
 	
 	$("#saveTagBtn").click(function() {
@@ -210,13 +214,32 @@ function showTag(tags){
 
 // 给用户打标签
 function labelTag(){
-	var tt = "";
+	var selectTags = "";
 	$("label input[type=checkbox]").each(function(){
 	    if(this.checked){
-	    	tt += $(this).val();
+	    	selectTags += $(this).val();
 	    }
 	});  
-	console.log(tt);
+	//console.log(tt);
+	
+	$.ajax({
+		type : "POST",
+		url : baseUrl + "/wechat/user/labelTag",
+		traditional : false,
+		data: {openids: selectOpenids, tag: selectTags},
+		dataType : 'json',
+		success : function(result) {
+			if (result) {
+				console.log(result.obj);
+				/*if (result.msg) {
+					bootbox.alert(result.msg);
+				}*/
+			}
+		},
+		error : function() {
+			bootbox.alert(result.msg);
+		}
+	});
 }
 
 

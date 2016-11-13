@@ -88,7 +88,8 @@ public class WxUserController {
     		wxUser.setOpenid(arr.getJSONObject(i).getString("openid"));
     		wxUser.setRemark(arr.getJSONObject(i).getString("remark"));
     		wxUser.setNickname(arr.getJSONObject(i).getString("nickname"));
-    		wxUser.setLanguage(arr.getJSONObject(i).getString("language"));
+    		//wxUser.setLanguage(arr.getJSONObject(i).getString("language"));
+    		wxUser.setTagid_list(arr.getJSONObject(i).get("tagid_list").toString());
     		
     		list.add(wxUser);
     	}
@@ -162,10 +163,13 @@ public class WxUserController {
     //为用户打标签
     @ResponseBody
 	@RequestMapping("labelTag")
-	public Result labelTag(List<String> openids, String tag) {
+	public Result labelTag(String openids, String tag) {
     	Result mReturn = null;
+    	String[] lOpenids = openids.split(",");
     	
-    	int res = WeChatUtil.labelTags(TokenController.token.getToken(), openids, tag);
+        List<String> list = Arrays.asList(lOpenids);  
+    	
+    	int res = WeChatUtil.labelTags(TokenController.token.getToken(), list, tag);
     	
     	if(res == 0){
     		mReturn = Result.successResult().setMsg("标签赋值成功！");

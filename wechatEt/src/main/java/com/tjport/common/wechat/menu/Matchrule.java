@@ -8,19 +8,20 @@ package com.tjport.common.wechat.menu;
 
 public class Matchrule {
 	
-	private String tag_id;
+	private int tag_id;
 	private int sex;
 	private String contoury;
 	private String city;
 	private String client_platform_type;
 	private String language;
 	
-	public String getTag_id() {
+	public int getTag_id() {
 		return tag_id;
 	}
-	public void setTag_id(String tag_id) {
+	public void setTag_id(int tag_id) {
 		this.tag_id = tag_id;
 	}
+	
 	public int getSex() {
 		return sex;
 	}
@@ -51,6 +52,7 @@ public class Matchrule {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+	
 	
 	
 }

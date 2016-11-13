@@ -45,6 +45,8 @@ public class WeChatUtil {
 	
 	private static final String CREATE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN";
 	
+	private static final String DELETE_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=ACCESS_TOKEN";
+	
 	private static final String CREATE_PERSONAL_MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/addconditional?access_token=ACCESS_TOKEN";
 	
 	private static final String USER_INFO_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
@@ -164,13 +166,13 @@ public class WeChatUtil {
 		Menu menu = new Menu();
 		
 		ViewButton leftOne = new ViewButton();
-		leftOne.setName("报表1");
+		leftOne.setName("信息查询1");
 		leftOne.setType("view");
 		leftOne.setUrl("http://10.128.51.172:8081/etoll/report/index");
 		
 		
 		ViewButton leftTwo = new ViewButton();
-		leftTwo.setName("报表2");
+		leftTwo.setName("信息查询2");
 		leftTwo.setType("view");
 		leftTwo.setUrl("http://10.128.137.245:18080/smartbi/vision/openresource.jsp?resid=I8a000d370156c0a7c0a7a22d0156d4e1dae569d9&user=haolj&password=123456");
 		
@@ -192,7 +194,7 @@ public class WeChatUtil {
 		locationButton.setKey("location");
 		
 		Button salaryButton = new Button();
-		salaryButton.setName("报表查询");
+		salaryButton.setName("信息查询");
 		salaryButton.setSub_button(new Button[]{leftOne, leftTwo});
 		
 		Button otherButton = new Button();
@@ -214,6 +216,20 @@ public class WeChatUtil {
 		
 		if(jsonOject != null){
 			result = jsonOject.getIntValue("errorcode");
+		}
+		
+		return result;
+	}
+	
+	public static int deleteMenu(String token){
+		int result = 0;
+		
+		String url = DELETE_MENU_URL.replace("ACCESS_TOKEN", token);
+		
+		JSONObject jsonObject = getStr(url);
+		
+		if(jsonObject != null){
+			result = jsonObject.getIntValue("errorcode");
 		}
 		
 		return result;
@@ -265,7 +281,7 @@ public class WeChatUtil {
 		menu.setButton(new Button[]{salaryButton,scanButton,otherButton});
 		
 		Matchrule matchrule = new Matchrule();
-		matchrule.setSex(1);
+		matchrule.setTag_id(100);
 		
 		menu.setMatchrule(matchrule);
 		

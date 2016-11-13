@@ -39,6 +39,14 @@ public class TokenController extends BaseController {
 		System.out.println("token:" + token.getToken());
 		System.out.println("TimeL:" + token.getExpiresIn());
 		
+		int delMenuReuslt = WeChatUtil.deleteMenu(token.getToken());
+		if(delMenuReuslt == 0){
+			System.out.println("删除菜单 Success！");
+		}
+		else{
+			System.out.println("Error Code:" + delMenuReuslt);
+		}
+		
 		String menu = JSONObject.toJSON(WeChatUtil.initMenu()).toString();
 		int result = WeChatUtil.createMenu(token.getToken(), menu);
 		

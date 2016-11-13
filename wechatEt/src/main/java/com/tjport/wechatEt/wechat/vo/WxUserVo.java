@@ -24,7 +24,7 @@ public class WxUserVo {
 	private String unionid;
 	private String remark;
 	private String groupid;
-	private List<Integer> tagid_list = new ArrayList<Integer>();
+	private String tagid_list;
 	
 	public Boolean getSubscribe() {
 		return subscribe;
@@ -104,12 +104,13 @@ public class WxUserVo {
 	public void setGroupid(String groupid) {
 		this.groupid = groupid;
 	}
-	public List<Integer> getTagid_list() {
+	public String getTagid_list() {
 		return tagid_list;
 	}
-	public void setTagid_list(List<Integer> tagid_list) {
+	public void setTagid_list(String tagid_list) {
 		this.tagid_list = tagid_list;
 	}
+	
 	
 	
 }
