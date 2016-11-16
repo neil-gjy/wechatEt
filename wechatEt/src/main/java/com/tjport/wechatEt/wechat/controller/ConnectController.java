@@ -94,12 +94,26 @@ public class ConnectController extends BaseController {
 				else if(MessageUtil.MESSAGE_CLICK.equals(eventType)){
 					String key = map.get("EventKey");
 					
+					// 绑定openid
+					if(key.equals("rightOne")){
+				    	//String link = "http://www.tpitc.com.cn/wechat/service/login";
+				    	String link = "http://localhost:8081/wechat/bind/bindAccount";
+				    	message = MessageUtil.initText(toUserName, fromUserName, MessageUtil.bindInfoLink(link, toUserName));
+				    	/*if(wxUserService.bindWxUser(userInfo)){
+				    	    message = MessageUtil.initText(toUserName, fromUserName, "绑定成功！");
+				    	}
+				    	else{
+				    		message = MessageUtil.initText(toUserName, fromUserName, "绑定失败！");
+				    	}*/
+				    }
+					
 					// 判断菜单键值
 //					if(key.equals("leftOne")){
 //						message = MessageUtil.initText(toUserName, fromUserName, content);
 //						message= MessageUtil.bindInfoLink("www.baidu.com", openId)
 //					}
 				}
+				
 				
 			}
 		    

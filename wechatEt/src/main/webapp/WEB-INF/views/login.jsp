@@ -47,6 +47,9 @@
 					     <div class="form-group has-feedback col-md-2">
 					     	<button type="submit" class="btn btn-success btn-block btn-flat bg-maroon" style="margin-right: 10px" id="logInBtn">登陆</button>
 			             </div>
+			             <div class="form-group has-feedback col-md-2">
+					     	<label style="font-size:12px;color:white;margin-bottom: 0;padding: 8px 3px 6px 0px;text-align: center;vertical-align: middle;white-space: nowrap;" id="logInMsg"></label>
+			             </div>
 					</form>
 				</div>
 			</div>
@@ -98,8 +101,14 @@
 	<footer class="main-footer">
 	    <div class="pull-right hidden-xs"><strong><small>版本 1.0</small></strong></div>
 				<!-- Default to the left -->
-	    <strong><small><strong>天津港信息技术发展有限公司</strong> 版权所有  Copyright &copy; 2016 Tianjin Port Information
-					Technology Co.,Ltd. All rights reserved.</small></strong>
+				<p>
+					<small><strong>天津港信息技术发展有限公司</strong> 版权所有</small>
+				</p>
+				<p>
+					 <small><strong>  Copyright &copy; 2016 Tianjin Port Information
+					Technology Co.,Ltd. All rights reserved.</strong></small>
+				</p>
+	   
    </footer>
   </div>
 <script>
@@ -110,13 +119,13 @@ $(document).ready(function() {
 		//提交表单
 		var userName = $("#username").val();
 		var userPassword = $("#password").val();
-		var label = document.getElementById("rInfo");
+		var label = $("#logInMsg");
 		if (userName == "") {
-			label.innerText = "请输入用户名";
+			label.html("请输入用户名");
 			return false;
 		}
 		if (userPassword == "") {
-			label.innerText = "请输入密码";
+			label.html("请输入密码");
 			return false;
 		}
 		
@@ -127,17 +136,17 @@ $(document).ready(function() {
 			success : function(msg) {
 				if (msg) {
 					if (msg.code) {
-						//box.html(msg.msg);
+						label.html(msg.msg);
 						window.location.href = baseUrl + "/home";
 					} else {
 						//box.html(msg.msg);
 					}
 				} else {
-					//box.html("发生异常！");
+					label.html(msg.msg);
 				}
 			},
 			error : function() {
-				box.html("网络连接错误，请重试！");
+				label.html("网络连接错误，请重试！");
 			}
 		});
 		// 为了防止普通浏览器进行表单提交和产生页面导航（防止页面刷新？）返回false

@@ -44,18 +44,15 @@ public class LoginController extends BaseController {
 			
 			subject.login(token);
 			        
-			result.setCode(1);
-			result.setMsg("登录成功");
-			
+			result = Result.successResult().setMsg("登录成功");
 		} catch (AccountException e) {
 			token.clear();
-			result.setMsg(e.getMessage());
+			result = Result.errorResult().setMsg(e.getMessage());
 		} catch (Exception e) {
 			token.clear();
-			result.setMsg("登录失败");
+			result = Result.errorResult().setMsg("用户名密码错误");
 			e.printStackTrace();
 		}
-		
 		return result;
 	}
 	

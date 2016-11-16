@@ -103,4 +103,18 @@ public class UserServiceImpl implements IUserService{
 		userDao.update(entity);
 		
 	}
+	
+	
+	@Transactional
+	public void bindOpenid(String username, String openid) throws Exception{
+		User entity = userDao.findUserByUsername(username);
+		
+		entity.setOpenid(openid);
+
+		userDao.update(entity);
+		
+	}
+	
+	
+	
 }

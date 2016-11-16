@@ -51,6 +51,9 @@ public class User extends UUIDEntity implements Serializable {
 	// 部门
 	private Department dept;
 	
+	// openid
+	private String openid;
+	
 	// 用户角色
 	private List<Role> roles = Lists.newArrayList();
 	 
@@ -151,5 +154,14 @@ public class User extends UUIDEntity implements Serializable {
 		}
 		
 		return roleNames.toString();
+	}
+
+	@Column(name = "openid", length = 10)
+	public String getOpenid() {
+		return openid;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 }

@@ -151,8 +151,8 @@ public class MessageUtil {
 	public static String bindInfoLink(String link, String openId){
 		StringBuilder content = new StringBuilder();
 		
-		content.append("点击下方链接绑定物资系统账户：\n\n");
-		content.append("绑定信息后可接受物资系统信息推送\n");
+		content.append("点击下方链接进行绑定账户：\n\n");
+		content.append("绑定信息后可获取相应系统权限\n");
 		content.append( "<a href='" + link +"/" + openId + "'>点击这里，进行绑定</a>\n");
 		
 		return content.toString();
