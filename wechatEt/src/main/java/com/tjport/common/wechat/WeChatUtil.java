@@ -263,7 +263,7 @@ public class WeChatUtil {
 		ClickButton bindButton = new ClickButton();
 		bindButton.setName("绑定个人信息");
 		bindButton.setType("click");
-		bindButton.setKey("bindInfo");
+		bindButton.setKey("rightOne");
 		
 		ClickButton locationButton = new ClickButton();
 		locationButton.setName("地理位置");

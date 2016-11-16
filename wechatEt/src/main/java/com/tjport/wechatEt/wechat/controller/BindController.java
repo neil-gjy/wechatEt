@@ -39,7 +39,7 @@ public class BindController extends BaseController {
 	public String login(@PathVariable String openid, Map<String,String> map){
 		map.put("openid", openid);
 		
-		return BASE + "/" + PATH + "bindAccount";
+		return BASE + "/" + PATH + "/bindAccount";
 	}
 
 	// 将用户绑定到

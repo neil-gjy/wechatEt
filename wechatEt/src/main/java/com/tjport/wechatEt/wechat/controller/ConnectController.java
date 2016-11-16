@@ -97,7 +97,7 @@ public class ConnectController extends BaseController {
 					// 绑定openid
 					if(key.equals("rightOne")){
 				    	//String link = "http://www.tpitc.com.cn/wechat/service/login";
-				    	String link = "http://localhost:8081/wechat/bind/bindAccount";
+				    	String link = "http://192.168.3.4:8080/wechatEt/wechat/bind/bindAccount";
 				    	message = MessageUtil.initText(toUserName, fromUserName, MessageUtil.bindInfoLink(link, toUserName));
 				    	/*if(wxUserService.bindWxUser(userInfo)){
 				    	    message = MessageUtil.initText(toUserName, fromUserName, "绑定成功！");
