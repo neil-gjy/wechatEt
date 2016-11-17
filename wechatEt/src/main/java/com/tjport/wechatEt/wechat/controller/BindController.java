@@ -44,9 +44,8 @@ public class BindController extends BaseController {
 
 	// 将用户绑定到
 	@ResponseBody
-	@RequestMapping(value = "/bindUser/{openid}", method = RequestMethod.POST)
-	public Result login(User user, @PathVariable String openid, Map<String,String> map) {
-		map.put("openid", openid);
+	@RequestMapping(value = "/bindUser", method = RequestMethod.POST)
+	public Result login(User user) {
 		
 		Subject subject = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
@@ -57,7 +56,7 @@ public class BindController extends BaseController {
 			
 			subject.login(token);
 			
-			userService.bindOpenid(user.getName(), user.getOpenid());
+			userService.bindOpenid(user.getUsername(), user.getOpenid());
 			List<String> list = new ArrayList<String>();
 			list.add(user.getOpenid());
 			
