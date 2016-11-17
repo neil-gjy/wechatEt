@@ -13,6 +13,7 @@
 
 <%@ include file="/common/wx-header.jsp"%>
 <%@ include file="/common/taglibs.jsp"%>
+<%@ include file="/common/js-lib.jsp"%>
 
 </head>
 
@@ -23,27 +24,24 @@
 		<div class="row">	
 			<!-- <nav class="navbar navbar-fixed-top transparent" style="background: transparent none repeat scroll 0% 0%;"> -->
 			<div class="row">
-				<div class="col-md-1 col-sm-1">
-					<%-- <img src="${ctx}/assets/imgs/tjport.jpg" class="logo-image" alt="User Image"> --%>
-				</div>
-				<div class="col-md-5 col-md-offset-6 col-sm-5 col-sm-offset-6" style="margin-top: 10px">
+				<div class="col-md-8 col-sm-8 " style="margin-top: 10px">
 					<form  id="loginForm">
-						<div class="form-group has-feedback col-md-4">
+						<div class="form-group has-feedback col-md-6">
 							<span class="glyphicon glyphicon-user form-control-feedback"></span>
 					        <input type="text" id="username" name="username" class="form-control" placeholder="用户名">
 					     </div>
-					     <div class="form-group has-feedback col-md-4">
+					     <div class="form-group has-feedback col-md-6">
 					     	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 					        <input type="password" id="password" name="password" class="form-control" placeholder="密码">
 					     </div>
-					      <div class="form-group has-feedback col-md-4" style="display:none">
+					      <div class="form-group has-feedback col-md-6" style="display:none">
 					     	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 					        <input id="openid" name="openid" class="form-control">
 					     </div>
-					     <div class="form-group has-feedback col-md-2">
+					     <div class="form-group has-feedback col-md-6">
 					     	<button type="submit" class="btn btn-success btn-block btn-flat bg-maroon" style="margin-right: 10px" id="logInBtn">登陆</button>
 			             </div>
-			             <div class="form-group has-feedback col-md-2">
+			             <div class="form-group has-feedback col-md-6">
 					     	<label style="font-size:12px;color:white;margin-bottom: 0;padding: 8px 3px 6px 0px;text-align: center;vertical-align: middle;white-space: nowrap;" id="logInMsg"></label>
 			             </div>
 					</form>
@@ -68,14 +66,12 @@
 	   
    </footer>
   </div>
-  <script>
+<script type="text/javascript">
+  var openid = "${openid}";
 //登陆
-$(document).ready(function() {
-	var openid = "${openid}";
-	
 	$(document).ready(function() {
-	    $('#openid').val(openid);
-    });
+
+    /* $('#openid').val(openid); */
 	
 	$('#logInBtn').click(function() {
 		//提交表单
