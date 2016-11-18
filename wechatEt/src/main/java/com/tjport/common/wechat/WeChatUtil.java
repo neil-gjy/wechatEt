@@ -74,6 +74,9 @@ public class WeChatUtil {
 	
 	// 为用户打标签
 	private static final String LABEL_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN";
+	
+	// 为用户取消标签
+	private static final String REMOVE_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
 		
 	/**
 	 * Get
