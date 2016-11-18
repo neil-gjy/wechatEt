@@ -75,6 +75,9 @@ public class WeChatUtil {
 	// 为用户打标签
 	private static final String LABEL_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token=ACCESS_TOKEN";
 		
+	// 为用户移除标签
+	private static final String REMOVE_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
+	
 	/**
 	 * Get
 	 * @param url
@@ -624,6 +627,32 @@ public class WeChatUtil {
 		return result;
     }
 	
-	
+	/**
+	 * 为用户移除标签
+	 * @param token
+	 * @param openid
+	 * @param tags
+	 * @return
+	 */
+	public static int removeTags(String token, List<String> openids, String tagid){
+		int result = 0;
+		String url = REMOVE_TAGS.replace("ACCESS_TOKEN", token);
+		
+		JSONObject jsonPost = new JSONObject();
+		
+		jsonPost.put("openid_list", openids);
+		jsonPost.put("tagid", tagid);
+			
+		
+		String postStr = jsonPost.toJSONString();
+		
+		JSONObject jsonObject = postStr(url, postStr);
+		
+		if(jsonObject != null){
+			result = jsonObject.getIntValue("errorcode");
+		}
+		
+		return result;
+    }
 	
 }
