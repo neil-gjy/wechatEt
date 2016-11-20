@@ -77,9 +77,6 @@ public class WeChatUtil {
 	
 	// 为用户取消标签
 	private static final String REMOVE_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
-		
-	// 为用户移除标签
-	private static final String REMOVE_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
 	
 	// 获取标签下粉丝
 	private static final String FANS_IN_TAGS = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN";
