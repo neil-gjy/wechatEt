@@ -74,7 +74,13 @@ public class WxUserController {
 		int page = (params.getStart() / params.getLength()) + 1;
     	int rows = params.getLength();
     	
-    	UserListPo usersListPo = WeChatUtil.getUserList(TokenController.token.getToken(), "");
+    	UserListPo usersListPo = null;
+    	if(params.getSearch().isEmpty()){
+    		usersListPo = WeChatUtil.getUserList(TokenController.token.getToken(), "");
+    	}
+    	else{
+    		usersListPo = WeChatUtil.getFansInTag(TokenController.token.getToken(), params.getSearch(), "");
+    	}
     	
     	JSONObject obj = WeChatUtil.getUserInfoList(TokenController.token.getToken(), usersListPo.getOpenid());
     	
@@ -130,6 +136,43 @@ public class WxUserController {
 	}
     
     
+    @ResponseBody
+	@RequestMapping("loadFansInTagList")
+	public DatatablesResult<WxUserVo> loadFansInTagList(@RequestBody DatatablesParameters params)
+			throws UnsupportedEncodingException {
+		int page = (params.getStart() / params.getLength()) + 1;
+    	int rows = params.getLength();
+    	
+    	UserListPo usersListPo = WeChatUtil.getFansInTag(TokenController.token.getToken(), params.getSearch(), "");
+    	
+    	JSONObject obj = WeChatUtil.getUserInfoList(TokenController.token.getToken(), usersListPo.getOpenid());
+    	
+    	JSONArray arr = obj.getJSONArray("user_info_list");
+    	
+    	ArrayList<WxUserVo> list = new ArrayList<WxUserVo>();
+    	int total = arr.size();
+    	for(int i=0; i<total; i++){
+    		WxUserVo wxUser = new WxUserVo();
+    		
+    		wxUser.setOpenid(arr.getJSONObject(i).getString("openid"));
+    		wxUser.setRemark(arr.getJSONObject(i).getString("remark"));
+    		wxUser.setNickname(arr.getJSONObject(i).getString("nickname"));
+    		//wxUser.setLanguage(arr.getJSONObject(i).getString("language"));
+    		wxUser.setTagid_list(arr.getJSONObject(i).get("tagid_list").toString());
+    		
+    		list.add(wxUser);
+    	}
+             	
+    	DatatablesResult<WxUserVo> result = new DatatablesResult<WxUserVo>();
+    	result.setDraw(params.getDraw());
+    	result.setData(list);
+    	result.setRecordsFiltered(total);
+    	result.setRecordsTotal(total);
+    	
+    	return result;
+	}
+    
+    
     // 用户标签
     @ResponseBody
 	@RequestMapping("getTagsList")
@@ -176,6 +219,29 @@ public class WxUserController {
     	}
     	else{
     		mReturn = Result.errorResult().setMsg("标签赋值失败！");
+    	}
+    	
+    	
+    	return mReturn;
+    }
+    
+    
+    //为移除打标签
+    @ResponseBody
+	@RequestMapping("removeTag")
+	public Result removeTag(String openids, String tag) {
+    	Result mReturn = null;
+    	String[] lOpenids = openids.split(",");
+    	
+        List<String> list = Arrays.asList(lOpenids);  
+    	
+    	int res = WeChatUtil.removeTags(TokenController.token.getToken(), list, tag);
+    	
+    	if(res == 0){
+    		mReturn = Result.successResult().setMsg("标签移除成功！");
+    	}
+    	else{
+    		mReturn = Result.errorResult().setMsg("标签移除失败！");
     	}
     	
     	

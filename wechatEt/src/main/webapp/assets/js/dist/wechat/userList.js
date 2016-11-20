@@ -84,6 +84,8 @@ $(function() {
 		var data = table.row($(this).closest('tr')).data();
 		del(data.id);
 
+	}).on('click','tbody tr',function(){
+		alert(1)
 	});
 	
 	
@@ -123,6 +125,10 @@ $(function() {
 
 			})).api();
 	
+	tagsTable.on('click','tbody tr',function(){
+		var data = table.row($(this).closest('tr')).data();
+	});
+	
 	// 获取用户信息
 	//getUserList();
 	
@@ -149,6 +155,24 @@ $(function() {
 		 $("#toUserTagModal").modal("show");
 	});
 	
+	$("#removeTagToUsersBtn").click(function() {
+		 var selectIds = table.rows( { selected: true } );
+		 var rowData = table.rows( selectIds[0] ).data().toArray();
+		 
+		 var str = "";
+		 for(var i=0; i<rowData.length; i++){
+			 str += rowData[i].openid;
+			 str += ",";
+		 }
+		 selectOpenids = str.substring(0,str.length-1);
+		 
+		 //选中要删除的标签
+		 getUserTags();
+		 $("#toUserTagModal").modal("show");
+
+		 selectOpenids = str.substring(0,str.length-1);
+	});
+	
 	$("#saveTagBtn").click(function() {
 		saveTag();
 	});
@@ -159,6 +183,10 @@ $(function() {
 	
 	$("#labelTagBtn").click(function(){
 		labelTag();
+	});
+	
+	$("#removeTagBtn").click(function(){
+		removeTag();
 	});
 
 });
@@ -199,19 +227,6 @@ function showTag(tags){
 	$("#tagContent").html(html);
 }
 
-//function showTag1(){
-//	var html = '<label id="tt" class="col-xs-4 select-checkbox">' +
-//					'<input type="checkbox" value="1">' +
-//					'<span >测试1</span>' +
-//				'</label>' + 
-//				'<label id="tt" class="col-xs-4 select-checkbox">' +
-//					'<input type="checkbox" value="2">' +
-//					'<span >测试2</span>' +
-//				'</label>';
-//			
-//	$("#tagContent").html(html);
-//}
-
 // 给用户打标签
 function labelTag(){
 	var selectTags = "";
@@ -225,6 +240,35 @@ function labelTag(){
 	$.ajax({
 		type : "POST",
 		url : baseUrl + "/wechat/user/labelTag",
+		traditional : false,
+		data: {openids: selectOpenids, tag: selectTags},
+		dataType : 'json',
+		success : function(result) {
+			if (result) {
+				console.log(result.obj);
+				/*if (result.msg) {
+					bootbox.alert(result.msg);
+				}*/
+			}
+		},
+		error : function() {
+			bootbox.alert(result.msg);
+		}
+	});
+}
+
+//给用户移除标签
+function removeTag(){
+	var selectTags = "";
+	$("label input[type=checkbox]").each(function(){
+	    if(this.checked){
+	    	selectTags += $(this).val();
+	    }
+	});  
+	
+	$.ajax({
+		type : "POST",
+		url : baseUrl + "/wechat/user/removeTag",
 		traditional : false,
 		data: {openids: selectOpenids, tag: selectTags},
 		dataType : 'json',

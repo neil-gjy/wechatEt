@@ -78,6 +78,9 @@ public class WeChatUtil {
 	// 为用户移除标签
 	private static final String REMOVE_TAGS = "https://api.weixin.qq.com/cgi-bin/tags/members/batchuntagging?access_token=ACCESS_TOKEN";
 	
+	// 获取标签下粉丝
+	private static final String FANS_IN_TAGS = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN";
+	
 	/**
 	 * Get
 	 * @param url
@@ -653,6 +656,49 @@ public class WeChatUtil {
 		}
 		
 		return result;
+    }
+	
+	
+	/**
+	 * 获取标签下的粉丝
+	 * @param token
+	 * @param openid
+	 * @param tags
+	 * @return
+	 */
+	public static UserListPo getFansInTag(String token, String tagid, String next_openid){
+		UserListPo userListPo = new UserListPo();
+		
+		String url = FANS_IN_TAGS.replace("ACCESS_TOKEN", token);
+		
+		JSONObject jsonPost = new JSONObject();
+		
+		if(!next_openid.isEmpty()){
+			jsonPost.put("next_openid", next_openid);
+		}
+		jsonPost.put("tagid", tagid);
+			
+		
+		String postStr = jsonPost.toJSONString();
+		
+		JSONObject jsonObject = postStr(url, postStr);
+		
+		if(jsonObject != null){
+			userListPo.setCount(jsonObject.getIntValue("total"));
+			userListPo.setCount(jsonObject.getIntValue("count"));
+			
+			userListPo.setNext_openid(jsonObject.getString("next_openid"));
+			JSONObject data = jsonObject.getJSONObject("data");
+			
+			JSONArray arr = data.getJSONArray("openid");
+			
+			//List<String>
+			for(int i=0; i<arr.size(); i++){
+				userListPo.getOpenid().add(arr.getString(i));
+			}
+		}
+		
+		return userListPo;
     }
 	
 }

@@ -18,7 +18,9 @@
 						<button class="btn btn-sm btn-primary " id="addTagToUsersBtn">
 							<span class="glyphicon glyphicon-plus"></span> 打标签
 						</button>
-
+						<button class="btn btn-sm btn-primary " id="removeTagToUsersBtn">
+							<span class="glyphicon glyphicon-plus"></span> 移除标签
+						</button>
 						<button class="btn btn-sm btn-primary" id="btnRefresh">
 							<span class="glyphicon glyphicon-refresh"></span> 刷新
 						</button>
@@ -148,7 +150,8 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
-				<button class="btn btn-primary" id="labelTagBtn">确定</button>
+				<button class="btn btn-primary" id="labelTagBtn">添加标签</button>
+				<button class="btn btn-primary" id="removeTagBtn">移除标签</button>
 			</div>
 		</div>
 	</div>
