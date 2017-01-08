@@ -113,9 +113,16 @@ public class ConnectController extends BaseController {
 //						message= MessageUtil.bindInfoLink("www.baidu.com", openId)
 //					}
 				}
+				else if(MessageUtil.MESSAGE_SCAN.equals(eventType)){
+					String key = map.get("EventKey");
+					
+					String link = "http://localhost:8080/wechatEt/wechat/bind/bindAccount";
+			    	message = MessageUtil.initText(toUserName, fromUserName, MessageUtil.bindInfoLink(link, toUserName));
+				}
 				
 				
 			}
+			
 		    
 			out.print(message);
 		}catch(DocumentException e){

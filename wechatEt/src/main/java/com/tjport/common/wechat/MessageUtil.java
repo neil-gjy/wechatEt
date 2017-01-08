@@ -34,6 +34,7 @@ public class MessageUtil {
 	public static final String MESSAGE_UNSUBSCRIBE = "unsubscribe";
 	public static final String MESSAGE_CLICK = "CLICK";
 	public static final String MESSAGE_VIEW = "view";
+	public static final String MESSAGE_SCAN = "SCAN";
 	
 	
 	/**

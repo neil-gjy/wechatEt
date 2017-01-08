@@ -7,6 +7,7 @@ import com.tjport.common.wechat.menu.ClickButton;
 import com.tjport.common.wechat.menu.Menu;
 import com.tjport.common.wechat.menu.ViewButton;
 import com.tjport.common.wechat.po.AccessTokenPo;
+import com.tjport.common.wechat.po.QRCodeTicketPo;
 import com.tjport.common.wechat.po.TagsPo;
 import com.tjport.common.wechat.po.UserInfoPo;
 import com.tjport.common.wechat.po.UserListPo;
@@ -80,6 +81,12 @@ public class WeChatUtil {
 	
 	// 获取标签下粉丝
 	private static final String FANS_IN_TAGS = "https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token=ACCESS_TOKEN";
+	
+	// 创建二维码TICKET
+	private static final String QR_CODE = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+	
+	// ticket换取二维码
+	private static final String SHOW_QR_CODE = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=TICKET";
 	
 	/**
 	 * Get
@@ -699,6 +706,51 @@ public class WeChatUtil {
 		}
 		
 		return userListPo;
+    }
+	
+	/**
+	 * 获取二维码TICKET
+	 * @param token
+	 * @param expire_seconds
+	 * @param isLimit
+	 * @param scence_id
+	 * @return
+	 */
+	public static QRCodeTicketPo getQRCodeTicket(String token, int expire_seconds, boolean isLimit, Integer scence_id){
+		QRCodeTicketPo qRCodeTicketPo = new QRCodeTicketPo();
+		
+		String url = QR_CODE.replace("ACCESS_TOKEN", token);
+		
+		JSONObject jsonPost = new JSONObject();
+		
+		jsonPost.put("expire_seconds", expire_seconds);
+		if(!isLimit){
+			jsonPost.put("action_name", "QR_SCENE");
+		}
+		else{
+			jsonPost.put("action_name", "QR_LIMIT_SCENE");
+		}
+		
+		JSONObject jsonScence = new JSONObject();
+		jsonScence.put("scene_id", scence_id);
+		
+		JSONObject jsonAction = new JSONObject();
+		jsonAction.put("scene", jsonScence);
+		
+		jsonPost.put("action_info", jsonAction);
+			
+		
+		String postStr = jsonPost.toJSONString();
+		
+		JSONObject jsonObject = postStr(url, postStr);
+		
+		if(jsonObject != null){
+			qRCodeTicketPo.setTicket(jsonObject.getString("ticket"));
+			qRCodeTicketPo.setExpire_seconds(jsonObject.getIntValue("expire_seconds"));
+			qRCodeTicketPo.setUrl(jsonObject.getString("url"));
+		}
+		
+		return qRCodeTicketPo;
     }
 	
 }
