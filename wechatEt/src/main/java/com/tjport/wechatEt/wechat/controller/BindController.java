@@ -75,4 +75,11 @@ public class BindController extends BaseController {
 		return result;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/test")
+	public Result test(String companyName, String date){
+		
+		return Result.successResult().setMsg("返回值:" + companyName + date);
+	}
+	
 }

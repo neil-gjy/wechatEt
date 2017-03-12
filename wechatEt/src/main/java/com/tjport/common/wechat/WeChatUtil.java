@@ -190,10 +190,10 @@ public class WeChatUtil {
 		leftTwo.setUrl("http://10.128.137.245:18080/smartbi/vision/openresource.jsp?resid=I8a000d370156c0a7c0a7a22d0156d4e1dae569d9&user=haolj&password=123456");
 		
 		
-		ClickButton scanButton = new ClickButton();
-		scanButton.setName("扫码");
-		scanButton.setType("scancode_push");
-		scanButton.setKey("scanCode");
+		ViewButton midOne = new ViewButton();
+		midOne.setName("地图");
+		midOne.setType("view");
+		midOne.setUrl("http://36c18ec0.ngrok.io/wechatEt/wechat/map/index");
 		
 		
 		ClickButton bindButton = new ClickButton();
@@ -214,7 +214,7 @@ public class WeChatUtil {
 		otherButton.setName("联系我们");
 		otherButton.setSub_button(new Button[]{bindButton,locationButton});
 		
-		menu.setButton(new Button[]{salaryButton,scanButton,otherButton});
+		menu.setButton(new Button[]{salaryButton,midOne,otherButton});
 		
 		return menu;
 	}
@@ -267,10 +267,16 @@ public class WeChatUtil {
 		leftTwo.setUrl("http://10.128.137.245:18080/smartbi/vision/openresource.jsp?resid=I8a000d370156c0a7c0a7a22d0156d4e1dae569d9&user=haolj&password=123456");
 		
 		
-		ClickButton scanButton = new ClickButton();
-		scanButton.setName("扫码");
-		scanButton.setType("scancode_push");
-		scanButton.setKey("scanCode");
+//		ClickButton scanButton = new ClickButton();
+//		scanButton.setName("扫码");
+//		scanButton.setType("scancode_push");
+//		scanButton.setKey("scanCode");
+		
+		ViewButton midOne = new ViewButton();
+		midOne.setName("地图");
+		midOne.setType("view");
+		midOne.setUrl("http://localhost:8080/wechat/map/index");
+		
 		
 		
 		ClickButton bindButton = new ClickButton();
@@ -291,7 +297,7 @@ public class WeChatUtil {
 		otherButton.setName("联系我们");
 		otherButton.setSub_button(new Button[]{bindButton,locationButton});
 		
-		menu.setButton(new Button[]{salaryButton,scanButton,otherButton});
+		menu.setButton(new Button[]{salaryButton,midOne,otherButton});
 		
 		Matchrule matchrule = new Matchrule();
 		matchrule.setTag_id(100);
